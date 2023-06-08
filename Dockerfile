@@ -2,6 +2,12 @@
 
 FROM python:3.8
 
+RUN apt update
+RUN apt install -y git
+RUN pip3 install "dvc[s3]"
+
+
+
 WORKDIR /app
 
 COPY requirement.txt requirement.txt
@@ -11,6 +17,10 @@ RUN pip3 install onnxruntime
 RUN pip3 install onnx
 RUN pip3 install -r requirement.txt --no-cache-dir
 COPY . .
+
+RUN dvc remote modify qg-model access_key_id AKIAQZVDIT2LZ2G5ZLGW
+RUN dvc remote modify qg-model secret_access_key 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
+RUN dvc pull
 
 EXPOSE 5000
 CMD [ "python", "app.py"]
