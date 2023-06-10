@@ -6,8 +6,6 @@ on:
   push:
     branches: 
       [ master ]
-    paths:
-    - '**'
     paths-ignore:
     - '.github/workflows/question-generation-model-AutoDeployTrigger-118ae1bb-e664-40fe-b586-d706bd32988a.yml'
 
