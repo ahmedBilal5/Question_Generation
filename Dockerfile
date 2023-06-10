@@ -18,8 +18,8 @@ RUN pip3 install onnx
 RUN pip3 install -r requirement.txt --no-cache-dir
 COPY . .
 
-RUN dvc remote modify qg-model access_key_id AKIAQZVDIT2LZ2G5ZLGW
-RUN dvc remote modify qg-model secret_access_key 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
+RUN dvc remote modify qg-model access_key_id ${S3_ACCESS}
+RUN dvc remote modify qg-model secret_access_key ${S3_SECRET}
 RUN dvc pull
 
 EXPOSE 5000
