@@ -8,6 +8,7 @@ on:
       [ master ]
     paths:
     - '**'
+    paths-ignore:
     - '.github/workflows/question-generation-model-AutoDeployTrigger-118ae1bb-e664-40fe-b586-d706bd32988a.yml'
 
   # Allow mannually trigger 
@@ -36,7 +37,7 @@ jobs:
           containerAppName: question-generation-model
           resourceGroup: DefaultResourceGroup-WUS2
           imageToBuild: ahmedbilal54/question-generation-model:${{ github.sha }}
-          
+          environmentVariables: S3_ACCESS=secretref:${{ secrets.S3_ACCESS_KEY }} S3_SECRET=secretref:${{ secrets.S3_SECRET_KEY }}  
 
      
 
