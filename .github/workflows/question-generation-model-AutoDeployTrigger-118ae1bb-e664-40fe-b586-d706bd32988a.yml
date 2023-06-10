@@ -1,0 +1,42 @@
+name: Trigger auto deployment for question-generation-model
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ master ]
+    paths:
+    - '**'
+    - '.github/workflows/question-generation-model-AutoDeployTrigger-118ae1bb-e664-40fe-b586-d706bd32988a.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.QUESTIONGENERATIONMODEL_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.QUESTIONGENERATIONMODEL_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.QUESTIONGENERATIONMODEL_REGISTRY_PASSWORD }}
+          containerAppName: question-generation-model
+          resourceGroup: DefaultResourceGroup-WUS2
+          imageToBuild: ahmedbilal54/question-generation-model:${{ github.sha }}
+          
+
+     
+
